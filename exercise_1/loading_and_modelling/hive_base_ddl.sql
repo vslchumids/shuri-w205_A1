@@ -1,17 +1,18 @@
 ----------------------------------------------------------------------------
--- W205 Section 5 Exercise 1
+-- W205 Section 5 Exercise 1 Final Submission
 -- Vincent Chu
 -- File name: hive_base_ddl.sql
 -- Description: SQL script to create tables for the base files loaded 
 --              into HDFS with load_data_lake.sh
+-- Date       : 10/7/2016
 ----------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------
 -- Create table for hospital objects from "Hospital General Information.csv"
 ----------------------------------------------------------------------------
-DROP TABLE hospital;
+DROP TABLE hospital_info;
 
-CREATE EXTERNAL TABLE IF NOT EXISTS hospital
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_info
 (provider_id string,
 hospital_name string,
 address string,
@@ -35,9 +36,9 @@ LOCATION '/user/w205/hospital_compare/hospitals';
 ----------------------------------------------------------------------------
 -- Create table for measure objects from "Measure Dates.csv"
 ----------------------------------------------------------------------------
-DROP TABLE measure;
+DROP TABLE measure_date;
 
-CREATE EXTERNAL TABLE IF NOT EXISTS measure
+CREATE EXTERNAL TABLE IF NOT EXISTS measure_date
 (measure_name string,
 measure_id string,
 measure_start_quarter string,
@@ -87,9 +88,9 @@ LOCATION '/user/w205/hospital_compare/structural_measures';
 -- Create table for patient survey response objects from 
 -- "hvbp_hcahps_05_28_2015.csv"
 ----------------------------------------------------------------------------
-DROP TABLE survey_response;
+DROP TABLE survey_res;
 
-CREATE EXTERNAL TABLE IF NOT EXISTS survey_response
+CREATE EXTERNAL TABLE IF NOT EXISTS survey_res
 (provider_number string,
 hospital_name string,
 address string,
