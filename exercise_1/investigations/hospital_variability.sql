@@ -7,7 +7,8 @@
 --              deviation of the hospitals' adjusted average scores). 
 -- Date       : 10/9/2016
 ----------------------------------------------------------------------------
--- By procedure
+-- Select the top 10 procedures with the highest standard deviation 
+-- (variability) across all hospitals
 SELECT m.procedure_id, 
        p.procedure_name, 
        AVG(mss.score_var) AS score_var, 
@@ -20,13 +21,20 @@ GROUP BY m.procedure_id, p.procedure_name
 ORDER BY score_stddev DESC
 LIMIT 10;
  
--- By measure
-SELECT mss.measure_id, 
-       m.measure_name, 
-       m.procedure_id, 
-       mss.score_var, 
-       mss.score_stddev
+-- Select the top 10 procedures with the highest standard deviation 
+-- (variability) across all hospitals, filtering out all measures
+-- with data on < 50% of the entire population of hospitals, i.e., 
+-- all hospitals with any data for any of the measure quality data 
+-- collected in this database.
+SELECT m.procedure_id, 
+       p.procedure_name, 
+       AVG(mss.score_var) AS score_var, 
+       AVG(mss.score_stddev) AS score_stddev
 FROM measure_score_summary mss LEFT JOIN measure m
 ON mss.measure_id = m.measure_id
+LEFT JOIN procedure p
+ON m.procedure_id = p.procedure_id
+WHERE mss.pct_hospitals_w_score >= 0.5
+GROUP BY m.procedure_id, p.procedure_name
 ORDER BY score_stddev DESC
 LIMIT 10;

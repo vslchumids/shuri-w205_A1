@@ -11,7 +11,7 @@ DROP TABLE procedure;
 CREATE TABLE procedure AS
 SELECT DISTINCT procedure_ID, procedure_name FROM
 (SELECT 'AMI' AS procedure_ID, 'Acute Myocardial Infarction' AS procedure_name UNION ALL
-SELECT 'CAC' AS procedure_ID, 'Children¡¯s Asthma Care' AS procedure_name UNION ALL
+SELECT 'CAC' AS procedure_ID, 'Children Asthma Care' AS procedure_name UNION ALL
 SELECT 'COMP_HIP_KNEE' AS procedure_ID, 'Hip/knee replacement complications' AS procedure_name UNION ALL
 SELECT 'ED' AS procedure_ID, 'Emergency Department' AS procedure_name UNION ALL
 SELECT 'HAI' AS procedure_ID, 'Healthcare-Associated Infections' AS procedure_name UNION ALL

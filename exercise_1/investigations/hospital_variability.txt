@@ -1,0 +1,54 @@
+----------------------------------------------------------------------------
+-- W205 Section 5 Exercise 1 Final Submission
+-- Vincent Chu
+-- File name: hospital_variability.txt
+-- Description: 
+-- Date       : 10/9/2016
+----------------------------------------------------------------------------
+
+Which procedures have the greatest variability between hospitals?
+
+Conclusion / Support: For this question, I took two approaches and wrote two queries on top of the measure_score_summary table to get the results.  Both 
+queries rank the procedures by the average standrad deviation across all the measures belonged to the procedures.  Results Table 2 corresponds to a more 
+refinerd query that filters out any measures with data for < 50% of the entire population of hospitals in the data set.  The two result tables have a lot of 
+overlaps in the top 10 procedures with the most variabililty, but the second one would not give advantage to any procedures with very data points 
+representing only a very small set of hospitals.
+
+Justification for Approach: The measure_score_summary table was created to store aggregate values by measure_id to facilitate the calculation of the
+normalized scores and standrad deviation in order to answer this question regarding variability of procedures acorss the hospitals.  
+
+Since the data was organized in measures, I used the Data Dictionary and online resources about the Hospital Compare data to group all measures in
+18 procedures.  This query groups by procedure and takes average of the standard deviation of the individual measured belonged to each procedure.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Results Table 1:
+
+m.procedure_id	p.procedure_name        		score_var       	score_stddev
+==============	================			=========		============
+ED      Emergency Department    			6241.216642643433       77.4992192321849
+HBIPS   Hospital-Based Inpatient Psychiatric Services   637.6983492373196       24.24097250242984
+IMM     Immunization    				204.9694847414362       14.14646690569656
+OP      Outpatient      				242.23191870142466      11.6062589221992
+VTE     Venous Thromboembolism  			119.04559151419595      10.110227307900017
+HF      Heart Failure   				96.68328027866187       9.566886240104813
+PSI     Patient Safety Indicators       		178.57380076963892      9.535632400082383
+STK     Stroke  					121.77764573679829      9.51421313939033
+PN      Pneumonia       				86.042218273117 	9.275894472939902
+AMI     Acute Myocardial Infarction     		110.8910043886537       8.725220164665181
+
+Results Table 2:
+
+m.procedure_id  p.procedure_name        		score_var       	score_stddev
+==============	================			=========		============
+ED      Emergency Department    			6241.216642643433       77.4992192321849
+IMM     Immunization    				204.9694847414362       14.14646690569656
+OP      Outpatient      				278.0557259215103       12.128160060948503
+VTE     Venous Thromboembolism  			117.40892355626555      10.235078052694037
+HF      Heart Failure   				96.68328027866187       9.566886240104813
+PN      Pneumonia       				86.042218273117 9.275894472939902
+STK     Stroke  					39.08738473561669       5.9706791252464235
+SCIP    Surgical Care Improvement Project       	22.147006359477533      4.583490662333595
+MORT    Mortality       				2.1901147559833256      1.4557683534693968
+READM   Readmissions    				1.2933726741436748      1.0955131320473208
+

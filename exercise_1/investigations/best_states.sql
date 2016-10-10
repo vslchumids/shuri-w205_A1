@@ -10,10 +10,14 @@
 ----------------------------------------------------------------------------
 DROP TABLE measure_count_temp;
 
+-- Create temporary table to store the number of unique
+-- measure_id from the measure_count table
 CREATE TEMPORARY TABLE measure_count_temp AS
 SELECT COUNT(DISTINCT measure_id) AS total_measure_count 
 FROM measure_score;
 
+-- Select the top 10 states with the highest adjusted quality score,
+-- based on all the appropriate measures
 SELECT state, 
        COUNT(provider_id) AS provider_count, 
        SUM(adjusted_avg_score) AS total_adjusted_avg_score, 

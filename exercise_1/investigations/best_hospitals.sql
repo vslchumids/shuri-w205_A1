@@ -10,10 +10,14 @@
 ----------------------------------------------------------------------------
 DROP TABLE measure_count_temp;
 
+-- Create temporary table to store the number of unique
+-- measure_id from the measure_count table
 CREATE TEMPORARY TABLE measure_count_temp AS
 SELECT COUNT(DISTINCT measure_id) AS total_measure_count 
 FROM measure_score;
 
+-- Select the top 10 hospitals with the highest adjusted quality score,
+-- based on all the appropriate measures
 SELECT
 msn.provider_id, 
 h.hospital_name, 

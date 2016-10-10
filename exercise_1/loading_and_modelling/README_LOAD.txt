@@ -1,6 +1,8 @@
 W205 Section 5
-Exercise 1 Part 1 - README
+Exercise 1 Final Submission 
+README_LOAD
 Vincent Chu
+10/9/2016
 
 I. Raw Data File Selection
 ===========================
@@ -25,7 +27,16 @@ and PSI measures in the Healthcare Associated Infections (HAI) and Complications
 6. The "HCAHPS ¨C Hospital.csv" file is excluded since data from the HCAHPS survey is already captured in the "hvbp_hcahps_05_28_2015.csv" file, which 
 is data used to link quality to payment in the Hospital Value-Based Purchasing (HVBP) Program.
 7. The hvbp_Efficiency_05_20_2015.csv file was excluded since it is related to the MSPB measures, which measure financial / economic efficiency.
-8. All files with the prefix ¡°FY2013_¡± since these are all payment related summary files.
+8. All other hvbp files except hvbp_hcahps_05_28_2015.csv, which contains patient survey responses.  All the hvbp files below are excluded because 
+scores for the corresponding measures are already captured in other data files:
+	hvbp_ami_05_28_2015.csv
+	hvbp_hai_05_28_2015.csv
+	hvbp_hf_05_28_2015.csv
+	hvbp_outcome_05_18_2015.csv
+	hvbp_pn_05_28_2015.csv
+	hvbp_scip_05_28_2015.csv
+	hvbp_quarters.csv
+9. All files with the prefix ¡°FY2013_¡± since these are all payment related summary files.
 
 II. Defining Procedures
 ========================
@@ -40,7 +51,7 @@ iii) General groups of measures related to an array of medical procedures , e.g.
 Procedure	Procedure Description
 ---------	---------------------
 AMI		Acute Myocardial Infarction
-CAC		Children¡¯s Asthma Care
+CAC		Children Asthma Care
 COMP_HIP_KNEE	Hip/knee replacement complications
 ED		Emergency Department
 HAI		Healthcare-Associated Infections
@@ -68,15 +79,16 @@ quality related questions of this exercise.
 
 IV. List of Tables Created
 ===========================
-1. hospital - Contains provider ID, name and state of each hospitals in the data set.  
+1. hospital_info - Contains provider ID, name and state of each hospitals in the data set.  
 
 Source files: 
 Hospital General Information.csv
 
-2. survey_response - Contains the 3 types of scores/points in HVBP program's data of the Hospital Consumer Assessment of Healthcare Providers and Systems 
-(HCAHPS) Patient Survey: achievement, improvement and dimension points.  The response_category field of this table will serve as an indicator of the survey 
-questions corresponding to the points, for example, communication of the nurses, communication of the doctors, cleaniness of the hospitals, etc.  These 
-information will be extracted from the column headings of the raw data.
+2. survey_res - Contains the Base Score and Consistency Score, which according to the HCAHPS fact sheet 
+(http://www.hcahpsonline.org/files/August%202013%20HCAHPS%20Fact%20Sheet2.pdf), are the 2 main parts of
+the Patient Experience of Care Domain score.  Each of the eight HCAHPS dimensions measured in the survey 
+are already encapsulated in the HCAHPS Base Score and Consistency Score.  Thus, other detailed scores are 
+not necessary to investigate a hospital's standing in the HCAHPS patient survey.
 
 Source files: 
 hvbp_hcahps_05_28_2015.csv
@@ -92,14 +104,8 @@ Readmissions and Deaths - Hospital.csv
 Timely and Effective Care - Hospital.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_IPFQR_HOSPITAL.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_PCH_HOSPITAL.csv
-hvbp_ami_05_28_2015.csv
-hvbp_hai_05_28_2015.csv
-hvbp_hf_05_28_2015.csv
-hvbp_outcome_05_18_2015.csv
-hvbp_pn_05_28_2015.csv
-hvbp_scip_05_28_2015.csv
 
-4. measure - Contains the list of exhaustive of measures, including those missing in the "Measure Dates.csv" but appear in the individual 
+4. measure_date - Contains the list of exhaustive of measures, including those missing in the "Measure Dates.csv" but appear in the individual 
 measure data files.
 
 Source files:
@@ -112,13 +118,6 @@ Readmissions and Deaths - Hospital.csv
 Timely and Effective Care - Hospital.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_IPFQR_HOSPITAL.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_PCH_HOSPITAL.csv
-hvbp_ami_05_28_2015.csv
-hvbp_hai_05_28_2015.csv
-hvbp_hf_05_28_2015.csv
-hvbp_outcome_05_18_2015.csv
-hvbp_pn_05_28_2015.csv
-hvbp_scip_05_28_2015.csv
-hvbp_quarters.csv
 
 5. measure_score - Contains the measure id / score pairs for each hospital (where applicable and data is available).  Only the final score 
 for each measure will be stored in this table.  In other words, all other values such as denominator/numerator used for calculations, 
@@ -132,15 +131,3 @@ Readmissions and Deaths - Hospital.csv
 Timely and Effective Care - Hospital.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_IPFQR_HOSPITAL.csv
 HOSPITAL_QUARTERLY_QUALITYMEASURE_PCH_HOSPITAL.csv
-
-6. hvbp_quality_score - Contains the 4 main metrics in the HVBP data set: performance rate, achievement points, improvement points and 
-measure score.  The corresponding measure_id will be extracted from the column headings of the hvbp raw data files.
-
-Source files: 
-hvbp_ami_05_28_2015.csv
-hvbp_hai_05_28_2015.csv
-hvbp_hf_05_28_2015.csv
-hvbp_outcome_05_18_2015.csv
-hvbp_pn_05_28_2015.csv
-hvbp_scip_05_28_2015.csv
-hvbp_quarters.csv

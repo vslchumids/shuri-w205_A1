@@ -21,7 +21,6 @@ SELECT ms.provider_id,
        CASE m.scoring_system 
        WHEN 'H'THEN (ms.score - mss.min_score) / (mss.max_score - mss.min_score) 
        WHEN 'L'THEN 1 - ((ms.score - mss.min_score) / (mss.max_score - mss.min_score))
-       ELSE NULL END AS normalized_score, 
-       mss.measure_id AS mss_measure_id
+       ELSE NULL END AS normalized_score
 FROM measure_score ms LEFT JOIN measure m ON ms.measure_id = m.measure_id
                       LEFT JOIN measure_score_summary mss ON ms.measure_id = mss.measure_id;
