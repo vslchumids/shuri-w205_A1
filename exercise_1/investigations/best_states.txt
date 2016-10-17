@@ -1,0 +1,46 @@
+----------------------------------------------------------------------------
+-- W205 Section 5 Exercise 1 Final Submission
+-- Vincent Chu
+-- File name: best_states.txt
+-- Description: 
+-- Date       : 10/9/2016
+----------------------------------------------------------------------------
+
+What states are models of high-quality care?
+
+Conclusion / Support: Please see table below for the top 10 states with the highest quality hospital care, i.e., high scores for a variety 
+of procedures across the state's hospitals.  The statewide adjusted score ranges from around 0.5 to around 0.61.
+
+Justification for Approach: The best_states query is basically an aggregate query on top of the hospital level query (best_hospitals).  It groups by 
+the state of each hospitals, gets the average adjusted score for each state and finally orders them in descending order to display the top 10 ranking 
+states.
+
+Below is details of the algorithm to calculate the normalized score at the provider_id/measure_id level (which can also be found in the best_hospitals.txt file):
+
+Since the 87 measures that were applicable to the 18 procedures were on different scale and scoring system (i.e., some measures favor
+a higher score and others favor a lower score), a normalization scheme must be adopted in order to consolidate/aggregate all these quality scores into a single
+metric for comparison.  The measure_score_normalized table stores the normalized version of each raw score for a particular combination of measure_id and 
+provider_id.  Using the data dictionary, each measure_id was given a value of 'H' or 'L' for the scoring system flag in the measuyre table, with 'H' signifying 
+that the measure prefers a higher score and 'L' signifying that the measure prefers a lower score. Using this flag, a normalized score will be calculation using 
+the following logic:
+
+If scoring_sytem = 'H', THEN (score - min_score) / (max_score - min_score)
+Else If scoring_sytem = 'L', THEN 1 - [(score - min_score) / (max_score - min_score)]
+
+This normalization scheme will give the lowest raw score a normalized score of 1 in the scoring_system = 'L' case and the highest raw score a normalized score of 
+1 in the scoring_system = 'H' case.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+state	provider_count	total_adjusted_avg_score    	adjusted_avg_score
+=====	==============  ========================	===================
+NJ      65      	39.934793660285386          	0.6143814409274675
+CT      31      	18.07064639370168		0.5829240772161832
+DE      7       	3.945554967999402       	0.5636507097142003
+RI      12      	6.582238008622862       	0.5485198340519052
+FL      188     	102.27898682440022      	0.5440371639595757
+MA      65      	35.14341635412544       	0.5406679439096221
+VA      85      	44.46726005966842       	0.523144235996099
+PA      173     	87.34878062210232       	0.5049062463705337
+NC      110     	55.535799166109456      	0.504870901510086
+NY      178     	89.45585227709863       	0.5025609678488687

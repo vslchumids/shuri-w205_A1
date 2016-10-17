@@ -1,0 +1,28 @@
+----------------------------------------------------------------------------
+-- W205 Section 5 Exercise 1 Final Submission
+-- Vincent Chu
+-- File name: hospitals_and_patients.txt
+-- Description: 
+-- Date       : 10/9/2016
+----------------------------------------------------------------------------
+
+Are average scores for hospital quality or procedural variability correlated with patient survey responses?
+
+Conclusion / Support: For this question, I calculated the Pearson Correlation Value between the overall quality score and the HCAHPS patient 
+survey score across all hospitals in the data set.  The result was -0.42845324071687263, which is not a strong correlation.  Also, the negative 
+sign seems to imply that the measures for hospital quality and the measures used in the survey seems to have a reverse relationship, meaning that 
+what's important from the hospitals' or regulation point of view does not necessarily agree with what's important for the patients
+
+Justification for Approach: The hospitals_and_patients.sql script first builds a temporary table with the overall quality score by hospital using 
+the same query as the best_hospitals script (without limiting to first 10 rows).  Then, a select query was written to join the hospital quality 
+scores with the patient survey scores using the provider_id of the hospitals.  The corr() function was called on the resulting set of joined data.  
+
+For the HCAHPS patient survey score, the base_score and consistency_score from the survey_response table was added together.  According to the 
+HCAHPS fact sheet (http://www.hcahpsonline.org/files/August%202013%20HCAHPS%20Fact%20Sheet2.pdf), the base_score and consistency_score are the 
+2 main parts of the Patient Experience of Care Domain score.  Each of the eight HCAHPS dimensions measured in the survey are already encapsulated 
+in the HCAHPS base score and consistency score.  
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+hospital_patient_corr
+-0.42845324071687263
+

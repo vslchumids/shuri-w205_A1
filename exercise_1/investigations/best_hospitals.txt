@@ -1,0 +1,49 @@
+----------------------------------------------------------------------------
+-- W205 Section 5 Exercise 1 Final Submission
+-- Vincent Chu
+-- File name: best_hospitals.txt
+-- Description: 
+-- Date       : 10/9/2016
+----------------------------------------------------------------------------
+
+What hospitals are models of high-quality care? That is, which hospitals have the most consistently high scores for a variety
+of procedures.
+
+Conclusion / Support: Please see table below for the top 10 hospitals with the best quality, i.e., high scores for a variety of procedures.  The 
+total_measure_count column shows the 87 measures (which belong to different procedures) with data in the measure_score table (loaded from various flat 
+data files from Hospital Compare), and the top 10 hospitals seem to have a straight average score (i.e., total scores / count of scores for a hospital) 
+of 65 to 66 and a relatively high measure_count, which is the number of measures for which the hospital has data for.  This is important since the last 
+column, i.e., the adjusted_avg_score, was ultimately used to rank all the hospitals.  It makes intuitive sense that the hospitals with relatively high 
+scores on average and have data for most of the measures would rise to the top.
+
+Justification for Approach: Since the 87 measures that were applicable to the 18 procedures were on different scale and scoring system (i.e., some measures favor
+a higher score and others favor a lower score), a normalization scheme must be adopted in order to consolidate/aggregate all these quality scores into a single
+metric for comparison.  The measure_score_normalized table stores the normalized version of each raw score for a particular combination of measure_id and 
+provider_id.  Using the data dictionary, each measure_id was given a value of 'H' or 'L' for the scoring system flag in the measuyre table, with 'H' signifying 
+that the measure prefers a higher score and 'L' signifying that the measure prefers a lower score. Using this flag, a normalized score will be calculation using 
+the following logic:
+
+If scoring_sytem = 'H', THEN (score - min_score) / (max_score - min_score)
+Else If scoring_sytem = 'L', THEN 1 - [(score - min_score) / (max_score - min_score)]
+
+This normalization scheme will give the lowest raw score a normalized score of 1 in the scoring_system = 'L' case and the highest raw score a normalized score of 
+1 in the scoring_system = 'H' case.
+
+Finally, in order not to give advantage to the hospitals with data for only a handful of the 87 measures, the final score for each hospital was calculated by 
+summing up all the normalized scores available and then divided by the total number of measures considered (instead of taking a straight average in which the 
+denominator would be the number of measures with scores for the hospital).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+provider_id	hospital_name	state	measure_count	total_score	straight_avg_score	total_measure_count	adjusted_avg_score
+===========	=============	=====	=============	===========	==================	===================	==================
+340113  CAROLINAS MEDICAL CENTER/BEHAV HEALTH   		NC      78      66.78327299253277       0.856195807596574       87      0.7676238275003767
+340002  MEMORIAL MISSION HOSPITAL AND ASHEVILLE SURGERY CE      NC      77      66.55230940424535       0.8643157065486409	87      0.7649690736120155
+330101  NEW YORK-PRESBYTERIAN HOSPITAL  			NY      78      66.5125214213083        0.8527246336065167      87      0.7645117404748081
+340115  FIRSTHEALTH MOORE REGIONAL HOSPITAL     		NC      76      66.39616236402533       0.8736337153161228      87      0.7631742800462682
+340091  MOSES H CONE MEMORIAL HOSPITAL, THE     		NC      76      66.28754218504028       0.8722045024347406      87      0.7619257722418423
+100038  MEMORIAL REGIONAL HOSPITAL      			FL      76      66.28629535947405       0.872188096835185       87      0.7619114409134948
+060100  MEDICAL CENTER OF AURORA, THE   			CO      76      66.25678110302135       0.8717997513555441      87      0.7615721965864524
+340053  NOVANT HEALTH PRESBYTERIAN MEDICAL CENTER       	NC      76      66.24795683612616       0.8716836425806074      87	0.7614707682313352
+260020  MERCY HOSPITAL ST LOUIS 				MO      77      65.98599084834481       0.8569609201083742      87      0.7584596649235036
+230019  PROVIDENCE HOSPITAL AND MEDICAL CENTERS 		MI      76      65.90994548759909       0.8672361248368301      87      0.7575855803172309
